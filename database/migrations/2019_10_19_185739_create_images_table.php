@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateImageTable extends Migration
+class CreateImagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,17 @@ class CreateImageTable extends Migration
      */
     public function up()
     {
-        Schema::create('images', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->timestamps();
-        });
+        Schema::create(
+            'images', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->bigInteger('post_id')->unsigned();
+                $table->string('url')->nullable(false);
+                $table->enum('type', ['THUMBNAIL', 'IMAGE']);
+                $table->timestamps();
+
+                $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
+            }
+        );
     }
 
     /**

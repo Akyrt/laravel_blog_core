@@ -13,10 +13,19 @@ class CreateCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->timestamps();
-        });
+        Schema::create(
+            'comments', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->bigInteger('post_id')->unsigned();
+                $table->text('content')->nullable(false);
+                $table->string('author', 30)->nullable(false);
+                $table->dateTime('posted_at');
+                $table->timestamps();
+
+                $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
+
+            }
+        );
     }
 
     /**

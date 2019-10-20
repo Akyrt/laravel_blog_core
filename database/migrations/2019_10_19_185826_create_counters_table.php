@@ -13,13 +13,18 @@ class CreateCountersTable extends Migration
      */
     public function up()
     {
-        Schema::create('counters', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('visits');
-            $table->integer('likes');
-            $table->integer('dislikes');
-            $table->timestamps();
-        });
+        Schema::create(
+            'counters', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->bigInteger('post_id')->unsigned();
+                $table->integer('visits')->default(0);
+                $table->integer('likes')->default(0);
+                $table->integer('dislikes')->default(0);
+                $table->timestamps();
+
+                $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
+            }
+        );
     }
 
     /**
