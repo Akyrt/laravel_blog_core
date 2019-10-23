@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Post;
+use App\Http\Requests\StorePostRequest;
+use App\Models\Post;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -14,7 +16,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::all();
+        return response()->json($posts, 200);
     }
 
     /**
@@ -33,9 +36,16 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
-        //
+        $post = new Post;
+        $post->title = $request->title;
+        $post->description = $request->description;
+        $post->user_id = 1;
+
+        $post->save();
+
+        return response()->json($post, 201);
     }
 
     /**

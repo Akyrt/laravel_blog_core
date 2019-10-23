@@ -1,13 +1,14 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
     protected $fillable = [
-        'user_id', 'title', 'content'
+        'user_id', 'title', 'description'
     ];
 
     public function user()
