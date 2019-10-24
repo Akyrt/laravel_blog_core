@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Post;
 use Illuminate\Http\Request;
+use App\Http\Resources\Post as PostResource;
 
 /*
 |--------------------------------------------------------------------------
