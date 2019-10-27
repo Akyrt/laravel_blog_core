@@ -49,9 +49,12 @@ class PostController extends Controller
         $post->title = $request->title;
         $post->description = $request->description;
 
+        if ($post->isClean()) {
+            return response()->json([], 204);
+        }
         $post->update();
 
-        return response()->json($post, 201);
+        return response()->json($post, 200);
     }
 
     public function destroy(Post $post)

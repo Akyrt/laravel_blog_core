@@ -2,84 +2,69 @@
 
 namespace App\Http\Controllers;
 
-use App\Image;
-use Illuminate\Http\Request;
+use App\Http\Requests\IndexImageRequest;
+use App\Http\Requests\StoreImageRequest;
+use App\Http\Requests\UpdateImageRequest;
+use App\Models\Image;
+use App\Http\Resources\Image as ImageResource;
 
 class ImageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function index(IndexImageRequest $request)
     {
-        //
+        $image = Image::where('post_id', $request->post_id)->get();
+
+        return response()->json($image, 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(StoreImageRequest $request)
     {
-        //
+        $image = new Image;
+
+        $image->url = $request->url;
+        $image->type = $request->type;
+        $image->post_id = $request->post_id;
+
+        $image->save();
+
+        return response()->json($image, 201);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Image  $image
-     * @return \Illuminate\Http\Response
-     */
     public function show(Image $image)
     {
-        //
+        return response()->json(new ImageResource($image), 200);
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Image  $image
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Image $image)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Image  $image
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Image $image)
+    public function update(UpdateImageRequest $request, Image $image)
     {
-        //
+        $image->url = $request->url;
+        $image->type = $request->type;
+        $image->post_id = $request->post_id;
+
+        if ($image->isClean()) {
+            return response()->json([], 204);
+        }
+        $image->update();
+
+        return response()->json($image, 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Image  $image
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Image $image)
     {
-        //
+        $image->delete();
+
+        return response()->json([], 204);
     }
 }

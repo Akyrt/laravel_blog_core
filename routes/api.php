@@ -20,3 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::resource('posts', 'PostController');
+Route::resource('comments', 'CommentController');
+Route::resource('images', 'ImageController');

@@ -14,4 +14,9 @@ class Image extends Model
     {
         return $this->belongsTo(Post::class);
     }
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 }
