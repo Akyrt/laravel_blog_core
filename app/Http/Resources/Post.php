@@ -16,6 +16,7 @@ class Post extends JsonResource
             'user' => $this->user,
             'comments' => $this->comments,
             'images' => $this->images,
+            'counter' => $this->counter,
         ];
     }
 }
