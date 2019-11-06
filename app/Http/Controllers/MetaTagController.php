@@ -2,84 +2,68 @@
 
 namespace App\Http\Controllers;
 
-use App\MetaTag;
-use Illuminate\Http\Request;
+use App\Http\Requests\IndexMetaTagRequest;
+use App\Http\Requests\StoreMetaTagRequest;
+use App\Http\Requests\UpdateMetaTagRequest;
+use App\Models\MetaTag;
+use App\Http\Resources\MetaTag as MetaTagResource;
 
 class MetaTagController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(IndexMetaTagRequest $request)
     {
-        //
+        $meta = MetaTag::where('post_id', $request->post_id)->get();
+
+        return response()->json($meta, 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(StoreMetaTagRequest $request)
     {
-        //
+        $metaTag = new MetaTag;
+
+        $metaTag->title = $request->title;
+        $metaTag->description = $request->description;
+        $metaTag->post_id = $request->post_id;
+
+        $metaTag->save();
+
+        return response()->json($metaTag, 200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\MetaTag  $metaTag
-     * @return \Illuminate\Http\Response
-     */
     public function show(MetaTag $metaTag)
     {
-        //
+        return response()->json(new MetaTagResource($metaTag), 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\MetaTag  $metaTag
-     * @return \Illuminate\Http\Response
-     */
     public function edit(MetaTag $metaTag)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\MetaTag  $metaTag
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, MetaTag $metaTag)
+    public function update(UpdateMetaTagRequest $request, MetaTag $metaTag)
     {
-        //
+        $metaTag->title = $request->title;
+        $metaTag->description = $request->description;
+        $metaTag->post_id = $request->post_id;
+
+        if ($metaTag->isClean()) {
+            return response()->json([], 204);
+        }
+
+        $metaTag->update();
+
+        return response()->json($metaTag, 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\MetaTag  $metaTag
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(MetaTag $metaTag)
     {
-        //
+        $metaTag->delete();
+
+        return response()->json([], 204);
     }
 }

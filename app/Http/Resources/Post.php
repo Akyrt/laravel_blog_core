@@ -17,6 +17,8 @@ class Post extends JsonResource
             'comments' => $this->comments,
             'images' => $this->images,
             'counter' => $this->counter,
+            'meta_tags' => $this->metatag,
+            'tags' => $this->tags,
         ];
     }
 }

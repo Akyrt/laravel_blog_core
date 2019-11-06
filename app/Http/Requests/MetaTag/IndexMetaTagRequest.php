@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class Tag extends FormRequest
+class IndexMetaTagRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class Tag extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class Tag extends FormRequest
     public function rules()
     {
         return [
-            //
+            'post_id' => 'required|exists:posts,id'
         ];
     }
 }

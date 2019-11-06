@@ -23,3 +23,5 @@ Route::resource('posts', 'PostController');
 Route::resource('comments', 'CommentController');
 Route::resource('images', 'ImageController');
 Route::resource('counter', 'CounterController');
+Route::resource('metatag', 'MetaTagController');
+Route::resource('tags', 'TagController');

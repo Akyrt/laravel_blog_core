@@ -20,7 +20,9 @@ class PostObserver
      */
     public function created(Post $post)
     {
-        //
+        if (request()->has('tags_ids')) {
+            $post->tags()->sync(request()->get('tags_ids'));
+        }
     }
 
     /**
@@ -31,7 +33,9 @@ class PostObserver
      */
     public function updated(Post $post)
     {
-        //
+        if (request()->has('tags_ids')) {
+            $post->tags()->sync(request()->get('tags_ids'));
+        }
     }
 
     /**

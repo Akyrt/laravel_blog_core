@@ -31,7 +31,7 @@ class Post extends Model
         return $this->hasMany(Image::class);
     }
 
-    public function metaTag()
+    public function metatag()
     {
         return $this->hasOne(MetaTag::class);
     }
